@@ -1,11 +1,11 @@
 package impl
 
 import (
-	"github.com/zidni722/pawoon-product/app/models"
 	"github.com/jinzhu/gorm"
+	"github.com/zidni722/pawoon-product/app/models"
 )
 
-type ProductRepositoryImpl struct {}
+type ProductRepositoryImpl struct{}
 
 func NewProductRepositoryImpl() *ProductRepositoryImpl {
 	return &ProductRepositoryImpl{}
@@ -17,6 +17,10 @@ func (r *ProductRepositoryImpl) FindAll(db *gorm.DB, entities interface{}) error
 
 func (r *ProductRepositoryImpl) FindById(db *gorm.DB, entity interface{}, id int) error {
 	return db.First(entity.(*models.Product), id).Error
+}
+
+func (r *ProductRepositoryImpl) FindByUuid(db *gorm.DB, entity interface{}, uuid string) error {
+	return db.Find(entity.(*models.Product), uuid).Error
 }
 
 func (r *ProductRepositoryImpl) Create(db *gorm.DB, entity interface{}) error {

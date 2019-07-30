@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/iris-contrib/middleware/cors"
+	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/zidni722/pawoon-product/app/web/controllers"
 	"github.com/zidni722/pawoon-product/bootstrap"
@@ -37,12 +38,12 @@ func (r *Route) Configure(b *bootstrap.Bootstrapper) {
 	// orderService := impl2.NewOrderServiceImpl(orderRequestRepository)
 	// orderDetailService := impl2.NewOrderDetailServiceImpl(orderDetailRequestRepository)
 
-	// v1 := b.Party("/v1", r.CorsHandler).AllowMethods(iris.MethodOptions)
-	// {
-	// items := v1.Party("/items")
-	// {
-	// 	itemController := controllers.NewItemController(r.Config.Database.DB, itemService)
-	// 	items.Get("/", itemController.GetIndexHandler)
-	// }
-	// }
+	v1 := b.Party("/v1", r.CorsHandler).AllowMethods(iris.MethodOptions)
+	{
+		products := v1.Party("/outlets")
+		{
+			productController := controllers.NewProductController(r.Config.Database.DB, productRepository)
+			products.Get("/{outletUuid:string}/products", productController.GetProductByOutletHandler)
+		}
+	}
 }
